@@ -1,0 +1,22 @@
+{
+  "weathers": [
+    {
+      "id": 1,
+      "temperatura": 10,
+      "umidade": 22,
+      "luminosidade": 23
+    },
+    {
+      "id": 2,
+      "temperatura": 33,
+      "umidade": 44,
+      "luminosidade": 54
+    },
+    {
+      "id": 3,
+      "temperatura": 22,
+      "umidade": 200,
+      "luminosidade": 66
+    }
+  ]
+}
