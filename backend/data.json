@@ -4,19 +4,31 @@
       "id": 1,
       "temperatura": 10,
       "umidade": 22,
-      "luminosidade": 23
+      "luminosidade": 23,
+      "createdAt": {
+        "date": "25/1/2021",
+        "hour": "13:20:18"
+      }
     },
     {
       "id": 2,
       "temperatura": 33,
       "umidade": 44,
-      "luminosidade": 54
+      "luminosidade": 54,
+      "createdAt": {
+        "date": "31/1/2021",
+        "hour": "17:50:18"
+      }
     },
     {
       "id": 3,
       "temperatura": 22,
-      "umidade": 200,
-      "luminosidade": 66
+      "umidade": 66,
+      "luminosidade": 66,
+      "createdAt": {
+        "date": "31/1/2021",
+        "hour": "19:2:18"
+      }
     }
   ]
 }
