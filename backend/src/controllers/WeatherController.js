@@ -29,15 +29,15 @@ class WeatherController {
 		};
 
 		let now = new Date();
-		let dia = now.getDate();           
-		let mes = now.getMonth();    
-		let ano4 = now.getFullYear();       
-		let hora = now.getHours();        
+		let day = now.getDate();           
+		let month = now.getMonth();    
+		let year = now.getFullYear();       
+		let hr = now.getHours();        
 		let min = now.getMinutes();        
-		let seg = now.getSeconds(); 
+		let sec = now.getSeconds(); 
 
-		let date = dia + '/' + (mes+1) + '/' + ano4;
-		let hour = hora + ':' + min + ':' + seg;
+		let date = day + '/' + (month+1) + '/' + year;
+		let hour = hr + ':' + min + ':' + sec;
 
 		const weather = {
 			id,
@@ -50,7 +50,7 @@ class WeatherController {
 	
 		data.weathers.push(weather)
 
-		fs.writeFile("data.json", JSON.stringify(data, null, 2), function(err) {
+		fs.writeFile("data.json", JSON.stringify(data, null, 2), err => {
 			if (err) return response.json("Erro ao escrever o arquivo");    
 			return response.json(weather);
 		});
@@ -60,7 +60,6 @@ class WeatherController {
 		const { id } = request.body
 
 		const filteredWeathers = data.weathers.filter(weather => weather.id != id);
-
 		data.weathers = filteredWeathers
 
 		fs.writeFile("data.json", JSON.stringify(data, null, 2), err => {
@@ -75,7 +74,6 @@ class WeatherController {
 	
 		const foundWeather = data.weathers.find((weather, foundIndex) => {
 			if(weather.id === id) {
-				console.log(foundIndex)
 				index = foundIndex;
 				return true;
 			}
@@ -91,7 +89,7 @@ class WeatherController {
 	
 		data.weathers[index] = weather;
 	
-		fs.writeFile("data.json", JSON.stringify(data, null, 2), function(err) {
+		fs.writeFile("data.json", JSON.stringify(data, null, 2), err => {
 			if (err) return response.json({ message: "Erro ao escrever arquivo" });
 			return response.json({ weather });
 		});

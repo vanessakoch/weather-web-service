@@ -29,6 +29,16 @@
         "date": "31/1/2021",
         "hour": "19:2:18"
       }
+    },
+    {
+      "id": 4,
+      "temperatura": "9,86",
+      "umidade": "68,95",
+      "luminosidade": "236,17",
+      "createdAt": {
+        "date": "1/2/2021",
+        "hour": "20:24:42"
+      }
     }
   ]
 }
