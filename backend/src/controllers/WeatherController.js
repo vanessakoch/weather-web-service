@@ -20,6 +20,7 @@ class WeatherController {
 	}
   
 	create(request, response) { 
+		let { temperatura, umidade, luminosidade } = request.body;
 		let id = 1;
 
 		const lastWeather = data.weathers[data.weathers.length -1];
@@ -35,13 +36,28 @@ class WeatherController {
 		let hr = now.getHours();        
 		let min = now.getMinutes();        
 		let sec = now.getSeconds(); 
+		
+		let formated = [day, month+1, hr, min, sec];
+		
+		formated = formated.map(num => {
+			if(num.toString().length === 1) {
+				return num = "0" + num;
+			}
+			return num.toString();
+		})
 
-		let date = day + '/' + (month+1) + '/' + year;
-		let hour = hr + ':' + min + ':' + sec;
-
+		let date = formated[0] + '/' + formated[1] + '/' + year;
+		let hour = formated[2] + ':' + formated[3] + ':' + formated[4];
+		
+		temperatura = parseFloat(temperatura);
+		umidade= parseFloat(umidade);
+		luminosidade= parseFloat(luminosidade);
+		
 		const weather = {
 			id,
-			...request.body,
+			temperatura,
+			umidade,
+			luminosidade,
 			createdAt: {
 				date,
 				hour
@@ -94,6 +110,27 @@ class WeatherController {
 			return response.json({ weather });
 		});
 	};
+
+	getLast(request, response) {
+		let lastWeather = data.weathers[data.weathers.length - 1];
+		return response.json(lastWeather);
+	}
+
+	getByDateHour(request, response) {
+		const { date, hour } = request.query;
+
+		const foundWeather = data.weathers.find(weather => 
+				weather.createdAt.date === date &&
+				weather.createdAt.hour === hour
+		);
+
+		if(foundWeather) {
+			return response.json(foundWeather);
+		} else {
+			return response.json({ message: "Medição não encontrada" });
+		}
+
+	}
 };
 
 module.exports = WeatherController;

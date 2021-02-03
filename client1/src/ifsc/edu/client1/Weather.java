@@ -16,24 +16,24 @@ public class Weather {
 		this.luminosidade = luminosidade;
 	}
 
-	public String getTemperatura() {
-		return String.valueOf(df.format(temperatura));
+	public float getTemperatura() {
+		return Float.valueOf(df.format(temperatura).replace(',', '.'));
 	}
 
 	public void setTemperatura(float temperatura) {
 		this.temperatura = temperatura;
 	}
 
-	public String getUmidade() {
-		return String.valueOf(df.format(umidade));
+	public float getUmidade() {
+		return Float.valueOf(df.format(umidade).replace(',', '.'));
 	}
 
 	public void setUmidade(float umidade) {
 		this.umidade = umidade;
 	}
 
-	public String getLuminosidade() {
-		return String.valueOf(df.format(luminosidade));
+	public float getLuminosidade() {
+		return Float.valueOf(df.format(luminosidade).replace(',', '.'));
 	}
 
 	public void setLuminosidade(float luminosidade) {

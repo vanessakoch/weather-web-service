@@ -2,42 +2,82 @@
   "weathers": [
     {
       "id": 1,
-      "temperatura": 10,
-      "umidade": 22,
-      "luminosidade": 23,
+      "temperatura": 2.67,
+      "umidade": 72.77,
+      "luminosidade": 432.68,
       "createdAt": {
-        "date": "25/1/2021",
-        "hour": "13:20:18"
+        "date": "02/02/2021",
+        "hour": "21:16:16"
       }
     },
     {
       "id": 2,
-      "temperatura": 33,
-      "umidade": 44,
-      "luminosidade": 54,
+      "temperatura": 15.4,
+      "umidade": 90,
+      "luminosidade": 120.8,
       "createdAt": {
-        "date": "31/1/2021",
-        "hour": "17:50:18"
+        "date": "02/02/2021",
+        "hour": "21:16:25"
       }
     },
     {
       "id": 3,
-      "temperatura": 22,
-      "umidade": 66,
-      "luminosidade": 66,
+      "temperatura": 40,
+      "umidade": 85.54,
+      "luminosidade": 473.95,
       "createdAt": {
-        "date": "31/1/2021",
-        "hour": "19:2:18"
+        "date": "02/02/2021",
+        "hour": "21:16:26"
       }
     },
     {
       "id": 4,
-      "temperatura": "9,86",
-      "umidade": "68,95",
-      "luminosidade": "236,17",
+      "temperatura": 15.49,
+      "umidade": 85.2,
+      "luminosidade": 200.8,
       "createdAt": {
-        "date": "1/2/2021",
-        "hour": "20:24:42"
+        "date": "02/02/2021",
+        "hour": "21:19:13"
+      }
+    },
+    {
+      "id": 5,
+      "temperatura": 42.92,
+      "umidade": 60.46,
+      "luminosidade": 312.74,
+      "createdAt": {
+        "date": "02/02/2021",
+        "hour": "21:21:39"
+      }
+    },
+    {
+      "id": 6,
+      "temperatura": 13.66,
+      "umidade": 65.04,
+      "luminosidade": 97.02,
+      "createdAt": {
+        "date": "02/02/2021",
+        "hour": "21:21:49"
+      }
+    },
+    {
+      "id": 7,
+      "temperatura": 16.75,
+      "umidade": 65.23,
+      "luminosidade": 500.99,
+      "createdAt": {
+        "date": "02/02/2021",
+        "hour": "23:01:46"
+      }
+    },
+    {
+      "id": 8,
+      "temperatura": 7.57,
+      "umidade": 85.25,
+      "luminosidade": 233.06,
+      "createdAt": {
+        "date": "02/02/2021",
+        "hour": "23:01:56"
       }
     }
   ]

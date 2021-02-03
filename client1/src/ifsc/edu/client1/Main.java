@@ -12,7 +12,7 @@ import java.util.Random;
 public class Main {
 
 	public static void main(String[] args) throws InterruptedException {
-		String baseUrl = "http://localhost:3333";
+		String baseUrl = "http://localhost:3000";
 		Random random = new Random();
 
 		while (true) {
