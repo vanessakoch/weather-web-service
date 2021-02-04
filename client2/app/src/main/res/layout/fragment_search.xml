@@ -114,7 +114,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView5">
 
         <EditText
-            android:id="@+id/editTextNumber"
+            android:id="@+id/txtId"
             android:layout_width="112dp"
             android:layout_height="match_parent"
             android:layout_marginRight="10dp"
@@ -128,7 +128,7 @@
             android:textColor="@color/blue_500" />
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/btnSearchId"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/blue_700"

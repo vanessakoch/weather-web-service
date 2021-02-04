@@ -13,9 +13,9 @@ class WeatherController {
 		const weather = data.weathers.filter(weather => weather.id == id);
 		
 		if(weather.length > 0) {
-			return response.json(weather);
+			return response.json(weather[0]);
 		} else {
-			return response.status(400).json({ message: 'Clima não encontrado.'})
+			return response.json({ message: 'Clima não encontrado.'})
 		}
 	}
   

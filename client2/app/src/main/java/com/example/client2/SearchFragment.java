@@ -1,7 +1,7 @@
 package com.example.client2;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
-import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,8 +19,6 @@ import com.google.gson.Gson;
 import com.ikovac.timepickerwithseconds.MyTimePickerDialog;
 import com.ikovac.timepickerwithseconds.TimePicker;
 
-import org.w3c.dom.Text;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -35,8 +33,10 @@ public class SearchFragment extends Fragment {
     Button btnDatePicker;
     Button btnTimePicker;
     Button btnSearch;
+    Button btnSearchId;
     TextView txtDate;
     TextView txtTime;
+    EditText txtId;
 
     Calendar calendar = Calendar.getInstance();
     int hour, minute, second;
@@ -48,8 +48,10 @@ public class SearchFragment extends Fragment {
         btnDatePicker = (Button) view.findViewById(R.id.btnDatePicker);
         btnTimePicker = (Button) view.findViewById(R.id.btnTimePicker);
         btnSearch = (Button) view.findViewById(R.id.btnSearch);
+        btnSearchId = (Button) view.findViewById(R.id.btnSearchId);
         txtDate = (TextView) view.findViewById(R.id.txtDate);
         txtTime = (TextView) view.findViewById(R.id.txtTime);
+        txtId = (EditText) view.findViewById(R.id.txtId);
 
         DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
             @Override
@@ -65,7 +67,6 @@ public class SearchFragment extends Fragment {
         btnTimePicker.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 hour = calendar.get(Calendar.HOUR_OF_DAY);
                 minute = calendar.get(Calendar.MINUTE);
                 second = calendar.get(Calendar.SECOND);
@@ -95,7 +96,19 @@ public class SearchFragment extends Fragment {
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        searchByDateHour();
+                        onClickByDateHour();
+                    }
+                }).start();
+            }
+        });
+
+        btnSearchId.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        onClickByID();
                     }
                 }).start();
             }
@@ -122,71 +135,93 @@ public class SearchFragment extends Fragment {
         txtTime.setText(formated[0] + ":" + formated[1] + ":" + formated[2]);
     }
 
-    public void searchByDateHour() {
-        if(!txtTime.getText().equals("") || !txtDate.getText().equals("")) {
+    public void onClickByDateHour() {
+        if(!txtTime.getText().toString().equals("") || !txtDate.getText().toString().equals("")) {
             String baseUrl = "http://10.0.2.2:3000/search?date=" + txtDate.getText() + "&hour=" + txtTime.getText();
+            search(baseUrl);
+        }
+    }
 
-            try {
-                URL url = new URL(baseUrl);
-                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                conn.setRequestMethod("GET");
-                conn.setRequestProperty("Accept", "application/json");
+    public void onClickByID() {
+        if(!txtId.getText().toString().equals("")) {
+            String baseUrl = "http://10.0.2.2:3000/weather/" + txtId.getText();
+            search(baseUrl);
+        } else {
+            getActivity().runOnUiThread(new Runnable() {
+                public void run() {
+                    Toast.makeText(getContext(),
+                            "Preencha o ID antes!", Toast.LENGTH_LONG).show();                        }
+            });
+        }
+    }
 
 
-                if (conn.getResponseCode() != 200) {
-                    throw new RuntimeException("Falha : HTTP código : " + conn.getResponseCode());
-                }
+    private void search(String baseUrl) {
+        try {
+            URL url = new URL(baseUrl);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+            conn.setRequestProperty("Accept", "application/json");
 
-                BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-                StringBuilder resultado = new StringBuilder();
 
-                String output;
-                while ((output = br.readLine()) != null) {
-                    resultado.append(output).append('\n');
-                }
-
-                Gson gson = new Gson();
-                Weather weather = gson.fromJson(String.valueOf(resultado), Weather.class);
-
-                if(weather.getCreatedAt() == null) {
-                    getActivity().runOnUiThread(new Runnable() {
-                        public void run() {
-                            Toast.makeText(getContext(),
-                                    "Este registro não existe", Toast.LENGTH_LONG).show();                        }
-                    });
-                } else {
-                    getActivity().runOnUiThread(new Runnable() {
-                        public void run() {
-                            onClickShow(weather);
-                        }
-                    });
-                }
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
+            if (conn.getResponseCode() != 200) {
+                throw new RuntimeException("Falha : HTTP código : " + conn.getResponseCode());
             }
+
+            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            StringBuilder resultado = new StringBuilder();
+
+            String output;
+            while ((output = br.readLine()) != null) {
+                resultado.append(output).append('\n');
+            }
+
+            Gson gson = new Gson();
+            Weather weather = gson.fromJson(String.valueOf(resultado), Weather.class);
+
+            if(weather.getCreatedAt() == null) {
+                getActivity().runOnUiThread(new Runnable() {
+                    public void run() {
+                        Toast.makeText(getContext(),
+                                "Este registro não existe", Toast.LENGTH_LONG).show();                        }
+                });
+            } else {
+                getActivity().runOnUiThread(new Runnable() {
+                    public void run() {
+                        onClickShow(weather);
+                    }
+                });
+            }
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
     public void onClickShow(Weather weather) {
         final AlertDialog.Builder mBuilder = new AlertDialog.Builder(getActivity());
         View view = getLayoutInflater().inflate(R.layout.show_dialog, null);
+
         final ImageView imgClima = (ImageView) view.findViewById(R.id.imgClima);
         final TextView txtTemperatura = (TextView) view.findViewById(R.id.txtTemperatura);
         final TextView txtUmidade = (TextView) view.findViewById(R.id.txtUmidade);
         final TextView txtLuminosidade = (TextView) view.findViewById(R.id.txtLuminosidade);
+        final TextView txtUpdate = (TextView) view.findViewById(R.id.txtUpdate);
         final Button btnOk = (Button) view.findViewById(R.id.btnOk);
 
         if(weather.getTemperatura() > 13) {
-            imgClima.setImageResource(R.drawable.sun);
+            imgClima.setImageResource(R.drawable.sunny);
+            imgClima.setBackgroundColor(getResources().getColor(R.color.yellow));
         } else {
-            imgClima.setImageResource(R.drawable.cold);
+            imgClima.setImageResource(R.drawable.snowflake);
+            imgClima.setBackgroundColor(Color.parseColor("#9E9E9E"));
         }
 
         txtTemperatura.setText("Temperatura: " + weather.getTemperatura() + " °C");
         txtUmidade.setText("Umidade: " + weather.getUmidade() + " %");
         txtLuminosidade.setText("Luminosidade: " + weather.getLuminosidade());
+        txtUpdate.setText(weather.getCreatedAt().getDate() + " " + weather.getCreatedAt().getHour());
 
         mBuilder.setView(view);
         final AlertDialog dialog = mBuilder.create();
@@ -200,5 +235,4 @@ public class SearchFragment extends Fragment {
         });
 
     }
-
 }

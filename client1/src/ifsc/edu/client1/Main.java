@@ -58,7 +58,7 @@ public class Main {
 
 			BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
 			String output;
-			System.out.println("Retorno do servidor .... \n");
+			System.out.println("\nRetorno do servidor .... \n");
 
 			while ((output = br.readLine()) != null) {
 				System.out.println(output);
